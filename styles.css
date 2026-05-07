@@ -598,7 +598,7 @@ a {
   }
 
   .arc-layer {
-    right: -124px;
+    right: -34px;
     top: auto;
     bottom: 64px;
     width: 360px;
@@ -606,7 +606,7 @@ a {
   }
 
   .right-floral-layer {
-    right: -202px;
+    right: -24px;
     top: auto;
     bottom: 40px;
     width: 435px;
@@ -614,14 +614,14 @@ a {
   }
 
   .players-layer {
-    right: -112px;
+    right: -18px;
     top: auto;
     bottom: 90px;
     width: 350px;
   }
 
   .flower-bed-layer {
-    right: -146px;
+    right: -64px;
     bottom: -5px;
     width: 470px;
   }
