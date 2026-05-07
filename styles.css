@@ -497,7 +497,7 @@ a {
 
   .hero {
     width: 100vw;
-    min-height: 100vh;
+    min-height: max(100svh, 760px);
     aspect-ratio: auto;
   }
 
@@ -535,9 +535,9 @@ a {
   }
 
   .hero-copy {
-    left: 28px;
-    top: 175px;
-    width: calc(100vw - 56px);
+    left: 26px;
+    top: 122px;
+    width: calc(100vw - 52px);
   }
 
   .hero-copy h1 {
@@ -550,85 +550,85 @@ a {
     white-space: normal;
   }
 
+  .title-rule {
+    width: min(255px, 72vw);
+    height: 48px;
+    margin: 0 0 7px;
+  }
+
   .intro {
-    width: min(330px, 100%);
-    margin-bottom: 14px;
+    width: min(342px, 100%);
+    margin-bottom: 22px;
     font-size: 14px;
-    line-height: 1.55;
+    line-height: 1.52;
   }
 
   .left-art {
-    width: 10vw;
+    width: 100vw;
+    opacity: 0.66;
   }
 
   .left-one {
     left: -96px;
     top: 75px;
     width: 270px;
+    opacity: 0.25;
   }
 
   .left-two {
-    left: -116px;
-    top: 260px;
-    width: 430px;
+    left: -142px;
+    top: 238px;
+    width: 390px;
+    opacity: 0.23;
   }
 
   .left-three {
-    left: -120px;
-    bottom: 50px;
-    width: 450px;
+    left: -158px;
+    bottom: 6px;
+    width: 430px;
+    opacity: 0.24;
   }
 
   .right-art {
     width: 100vw;
-    transform: translateX(132px) scale(0.72);
+    height: 43svh;
+    inset: auto 0 0 auto;
+    transform: none;
     transform-origin: right bottom;
   }
 
   .arc-layer {
-    right: -90px;
-    top: 315px;
-    width: 545px;
+    right: -124px;
+    top: auto;
+    bottom: 64px;
+    width: 360px;
+    opacity: 0.82;
   }
 
   .right-floral-layer {
-    right: -260px;
-    top: 300px;
-    width: 640px;
+    right: -202px;
+    top: auto;
+    bottom: 40px;
+    width: 435px;
+    opacity: 0.82;
   }
 
   .players-layer {
-    right: -178px;
-    top: 430px;
-    width: 610px;
+    right: -112px;
+    top: auto;
+    bottom: 90px;
+    width: 350px;
   }
 
   .flower-bed-layer {
-    right: -201px;
-    bottom: 39px;
-    width: 646px;
+    right: -146px;
+    bottom: -5px;
+    width: 470px;
   }
 
-  .textbox-layer {
-    right: -116px;
-    bottom: 12px;
-    width: 520px;
-  }
-
+  .textbox-layer,
   .quote-overlay {
-    right: -92px;
-    bottom: 36px;
-    grid-template-columns: 44px 1fr;
-    width: 430px;
-  }
-
-  .quote-mark {
-    font-size: 68px;
-  }
-
-  .quote-overlay p {
-    font-size: 19px;
-    line-height: 1.18;
+    display: none;
   }
 }
 
