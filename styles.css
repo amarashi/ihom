@@ -319,26 +319,11 @@ a {
 }
 
 .rosette {
-  position: relative;
-  width: 27px;
-  height: 27px;
-  margin: 0 0 16px 23px;
-  border: 1.5px solid rgba(174, 133, 43, 0.56);
-  transform: rotate(45deg);
-}
-
-.rosette::before,
-.rosette::after {
-  content: "";
-  position: absolute;
-  inset: 6px;
-  border: 1px solid rgba(174, 133, 43, 0.48);
-}
-
-.rosette::after {
-  inset: -8px;
-  border-style: dotted;
-  border-color: rgba(174, 133, 43, 0.32);
+  display: block;
+  width: 64px;
+  height: auto;
+  margin: 0 0 10px 8px;
+  opacity: 0.75;
 }
 
 .welcome {
@@ -434,7 +419,7 @@ a {
 .players-layer {
   z-index: 3;
   right: 25px;
-  top: 155px;
+  top: 185px;
   width: 715px;
   opacity: 0.98;
   transform: translate3d(var(--players-x), var(--players-y), 0);
@@ -446,7 +431,7 @@ a {
 .flower-bed-layer {
   z-index: 4;
   right: -40px;
-  bottom: 70px;
+  bottom: 0px;
   width: 850px;
   transform: translate3d(var(--flower-bed-x), var(--flower-bed-y), 0);
   filter: drop-shadow(0 22px 22px rgba(62, 45, 18, 0.26));
