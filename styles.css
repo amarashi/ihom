@@ -1,8 +1,21 @@
+/* ==========================================================================
+   Design tokens
+   --------------------------------------------------------------------------
+   Site-wide colours used by the landing page. Update these first when changing
+   the overall palette.
+   ========================================================================== */
+
 :root {
   --ink: #102f32;
   --teal: #006c65;
   --gold: #bb8d2a;
 }
+
+/* ==========================================================================
+   Base reset
+   --------------------------------------------------------------------------
+   Keeps sizing predictable and removes default browser spacing from the page.
+   ========================================================================== */
 
 * {
   box-sizing: border-box;
@@ -25,6 +38,12 @@ a {
   font: inherit;
 }
 
+/* ==========================================================================
+   Page shell
+   --------------------------------------------------------------------------
+   Centres the hero on desktop and provides the warm paper-like page backdrop.
+   ========================================================================== */
+
 .page-shell {
   min-height: 100vh;
   display: grid;
@@ -34,6 +53,13 @@ a {
     radial-gradient(circle at 72% 45%, rgba(250, 240, 205, 0.96), rgba(224, 198, 141, 0.66) 58%, rgba(199, 160, 83, 0.36) 100%),
     linear-gradient(90deg, #ecd5a3 0%, #f6ecd0 28%, #f0dfb7 61%, #d3b06e 100%);
 }
+
+/* ==========================================================================
+   Hero stage
+   --------------------------------------------------------------------------
+   Main full-screen composition. The custom properties below are parallax
+   offsets that are updated by the inline script in index.html.
+   ========================================================================== */
 
 .hero {
   position: relative;
@@ -64,6 +90,7 @@ a {
   box-shadow: 0 22px 60px rgba(58, 44, 16, 0.18);
 }
 
+/* Fallback hover movement when pointer-based parallax has not run yet. */
 .hero:hover {
   --grain-x: -2px;
   --grain-y: -1px;
@@ -83,6 +110,13 @@ a {
   --flower-bed-y: 9px;
 }
 
+/* ==========================================================================
+   Paper texture
+   --------------------------------------------------------------------------
+   Adds subtle speckling over the hero background. Pointer events stay disabled
+   so it never blocks links or buttons.
+   ========================================================================== */
+
 .paper-grain {
   position: absolute;
   inset: 0;
@@ -99,12 +133,25 @@ a {
   transition: transform 420ms ease-out;
 }
 
+/* ==========================================================================
+   Shared artwork positioning
+   --------------------------------------------------------------------------
+   Common absolute positioning for the layered decorative images and primary
+   content blocks.
+   ========================================================================== */
+
 .left-art,
 .right-art,
 .site-header,
 .hero-copy {
   position: absolute;
 }
+
+/* ==========================================================================
+   Left-side decorative layers
+   --------------------------------------------------------------------------
+   Three translucent miniature-art fragments along the left edge.
+   ========================================================================== */
 
 .left-art {
   z-index: 1;
@@ -150,6 +197,13 @@ a {
   filter: drop-shadow(0 22px 28px rgba(82, 63, 26, 0.18));
 }
 
+/* ==========================================================================
+   Header layout
+   --------------------------------------------------------------------------
+   Places the brand, primary navigation, and account/search/cart actions over
+   the hero artwork.
+   ========================================================================== */
+
 .site-header {
   z-index: 6;
   top: 18px;
@@ -158,6 +212,29 @@ a {
   display: flex;
   align-items: flex-start;
   gap: 28px;
+}
+
+.site-header::before,
+.hero-copy::before {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  pointer-events: none;
+  border: 1px solid rgba(255, 249, 226, 0.52);
+  border-radius: 8px;
+  background:
+    linear-gradient(135deg, rgba(251, 242, 214, 0.10), rgba(231, 206, 149, 0.10)),
+    rgba(246, 236, 210, 0.15);
+}
+
+.site-header > *,
+.hero-copy > * {
+  position: relative;
+  z-index: 1;
+}
+
+.site-header::before {
+  inset: -10px -14px -12px;
 }
 
 .brand {
@@ -185,6 +262,7 @@ a {
   letter-spacing: 1.1px;
 }
 
+/* Primary desktop navigation. Hidden in the mobile breakpoint below. */
 .main-nav {
   display: flex;
   align-items: center;
@@ -227,6 +305,7 @@ a {
   display: none;
 }
 
+/* Header action buttons: search icon, cart, and account CTA. */
 .header-actions {
   margin-left: auto;
   display: flex;
@@ -311,11 +390,22 @@ a {
   stroke-width: 1.8;
 }
 
+/* ==========================================================================
+   Hero copy and call to action
+   --------------------------------------------------------------------------
+   Text block on the left side of the hero, including the title, intro text,
+   ornamental rule, and main CTA.
+   ========================================================================== */
+
 .hero-copy {
   z-index: 5;
   left: 235px;
   top: 162px;
   width: 430px;
+}
+
+.hero-copy::before {
+  inset: -20px -25px -22px;
 }
 
 .rosette {
@@ -389,6 +479,13 @@ a {
   stroke-width: 1.7;
 }
 
+/* ==========================================================================
+   Right-side artwork layers
+   --------------------------------------------------------------------------
+   Stacked image composition on the right. Each layer has its own z-index and
+   parallax offset so the scene has depth.
+   ========================================================================== */
+
 .right-art {
   z-index: 2;
   inset: 0 0 0 auto;
@@ -414,6 +511,17 @@ a {
   opacity: 0.96;
   transform: translate3d(var(--right-floral-x), var(--right-floral-y), 0);
   filter: drop-shadow(0 20px 24px rgba(70, 45, 18, 0.22));
+}
+
+.carpet-layer {
+  z-index: 1;
+  right: 130px;
+  top: 400px;
+  width:570px;
+  height: 350px;
+  opacity: 0.88;
+  transform: translate3d(var(--players-x), var(--players-y), 0);
+  filter: drop-shadow(0 26px 24px rgba(42, 31, 14, 0.2));
 }
 
 .players-layer {
@@ -447,6 +555,7 @@ a {
     drop-shadow(0 22px 24px rgba(58, 42, 15, 0.22));
 }
 
+/* Text placed over the decorative textbox image on desktop. */
 .quote-overlay {
   position: absolute;
   z-index: 6;
@@ -482,6 +591,12 @@ a {
   font-weight: 700;
 }
 
+/* ==========================================================================
+   Large-screen adjustments
+   --------------------------------------------------------------------------
+   Keeps the hero copy and right artwork balanced on wider desktop screens.
+   ========================================================================== */
+
 @media (min-width: 1400px) {
   .hero-copy {
     left: clamp(260px, 18vw, 315px);
@@ -498,6 +613,58 @@ a {
     transform-origin: right bottom;
   }
 }
+
+@media (max-width: 1180px) and (min-width: 901px) {
+  .site-header {
+    left: 24px;
+    right: 24px;
+    align-items: center;
+    gap: 18px;
+  }
+
+  .brand {
+    min-width: 205px;
+    gap: 13px;
+  }
+
+  .brand-mark {
+    width: 96px;
+  }
+
+  .brand-copy {
+    font-size: 11px;
+    letter-spacing: 0.8px;
+  }
+
+  .main-nav {
+    gap: 18px;
+    padding-top: 0;
+  }
+
+  .main-nav a {
+    font-size: 13px;
+  }
+
+  .header-actions {
+    gap: 14px;
+    padding-top: 0;
+  }
+
+  .account-button {
+    display: none;
+  }
+
+  .hero-copy {
+    left: clamp(76px, 14vw, 160px);
+  }
+}
+
+/* ==========================================================================
+   Mobile layout
+   --------------------------------------------------------------------------
+   Simplifies the page for narrow screens: hides desktop nav, reduces artwork
+   sizes, and removes the quote box so the main copy stays readable.
+   ========================================================================== */
 
 @media (max-width: 900px) {
   .page-shell {
@@ -637,11 +804,19 @@ a {
     width: 470px;
   }
 
+  .carpet-layer,
   .textbox-layer,
   .quote-overlay {
     display: none;
   }
 }
+
+/* ==========================================================================
+   Motion preferences
+   --------------------------------------------------------------------------
+   Respects users who prefer reduced motion by disabling parallax transforms and
+   transitions on decorative layers.
+   ========================================================================== */
 
 @media (prefers-reduced-motion: reduce) {
   .paper-grain,
