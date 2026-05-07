@@ -553,7 +553,7 @@ a {
   .title-rule {
     width: min(255px, 72vw);
     height: 48px;
-    margin: 0 0 7px;
+    margin: 0 auto 7px;
   }
 
   .intro {
