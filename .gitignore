@@ -1,0 +1,24 @@
+.playwright-mcp/
+.codex-*.png
+
+# Local source/reference media not used by the GitHub Pages site.
+*.jpg
+Adobe Express - video5460679951948749634.gif
+floral base.png
+left1.png
+left2.png
+left3.png
+logo.jpg
+musicians-mask-luma.png
+musicians-mask.png
+musicians-video-alpha.webm
+musicians-video-masked.webm
+musicians.png
+output-onlinegiftools.gif
+textbox.png
+video5460679951948749634.mp4
+
+# Unused generated/cutout assets.
+assets/bg-floral.png
+assets/floral-tree.svg
+assets/tree-cutout.png
