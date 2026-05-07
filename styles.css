@@ -616,13 +616,13 @@ a {
   .players-layer {
     right: -18px;
     top: auto;
-    bottom: 70px;
+    bottom: 60px;
     width: 350px;
   }
 
   .flower-bed-layer {
     right: -64px;
-    bottom: -25px;
+    bottom: -35px;
     width: 470px;
   }
 
