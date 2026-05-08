@@ -39,6 +39,17 @@
           </nav>
 
           <div class="header-actions">
+            <button
+              class="menu-button"
+              type="button"
+              aria-label="Open menu"
+              aria-controls="mobile-menu"
+              aria-expanded="false"
+            >
+              <span aria-hidden="true"></span>
+              <span aria-hidden="true"></span>
+              <span aria-hidden="true"></span>
+            </button>
             <button class="icon-button" type="button" aria-label="Search">
               <svg viewBox="0 0 24 24" aria-hidden="true">
                 <circle cx="11" cy="11" r="7" />
@@ -61,6 +72,15 @@
               My Account
             </button>
           </div>
+
+          <nav class="mobile-menu" id="mobile-menu" aria-label="Mobile navigation" hidden>
+            <a class="active" href="#">Home</a>
+            <a href="#">Events</a>
+            <a href="#">Newsletters</a>
+            <a href="#">Gallery</a>
+            <a href="#">Committees</a>
+            <a href="#">About Us</a>
+          </nav>
         </header>
 
         <div class="hero-copy">
@@ -98,12 +118,100 @@
             </p>
           </div>
         </div>
+
+        <audio class="home-audio" preload="auto" loop>
+          <source src="assets/tarotombak.mp3" type="audio/mpeg" />
+        </audio>
+
+        <button class="music-toggle is-muted" type="button" aria-label="Play music" aria-pressed="true">
+          <svg class="music-on-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M4 9v6h4l5 4V5L8 9H4Z" />
+            <path class="sound-wave" d="M16 9.5a4 4 0 0 1 0 5" />
+            <path class="sound-wave" d="M18.5 7a7.5 7.5 0 0 1 0 10" />
+          </svg>
+          <svg class="music-off-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M4 9v6h4l5 4V5L8 9H4Z" />
+            <path d="M17 9l4 4m0-4-4 4" />
+          </svg>
+        </button>
       </section>
     </main>
     <script>
       (() => {
         const hero = document.querySelector(".hero");
+        const menuButton = document.querySelector(".menu-button");
+        const mobileMenu = document.querySelector(".mobile-menu");
+        const homeAudio = document.querySelector(".home-audio");
+        const musicToggle = document.querySelector(".music-toggle");
         const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+        let audioStarted = false;
+
+        const updateMusicButton = () => {
+          if (!homeAudio || !musicToggle) {
+            return;
+          }
+
+          const isInactive = homeAudio.muted || homeAudio.paused;
+          const label = homeAudio.paused ? "Play music" : homeAudio.muted ? "Unmute music" : "Mute music";
+          musicToggle.classList.toggle("is-muted", isInactive);
+          musicToggle.setAttribute("aria-pressed", String(isInactive));
+          musicToggle.setAttribute("aria-label", label);
+        };
+
+        const startMusic = async () => {
+          if (!homeAudio || audioStarted) {
+            return;
+          }
+
+          homeAudio.volume = 0.54;
+          homeAudio.muted = false;
+
+          try {
+            await homeAudio.play();
+            audioStarted = true;
+          } catch {
+            audioStarted = false;
+          } finally {
+            updateMusicButton();
+          }
+        };
+
+        musicToggle?.addEventListener("click", async () => {
+          if (!homeAudio) {
+            return;
+          }
+
+          if (homeAudio.paused) {
+            await startMusic();
+            return;
+          }
+
+          homeAudio.muted = !homeAudio.muted;
+          updateMusicButton();
+        });
+
+        ["play", "pause", "volumechange"].forEach((eventName) => {
+          homeAudio?.addEventListener(eventName, updateMusicButton);
+        });
+
+        updateMusicButton();
+
+        menuButton?.addEventListener("click", () => {
+          const isOpen = menuButton.getAttribute("aria-expanded") === "true";
+          menuButton.setAttribute("aria-expanded", String(!isOpen));
+          menuButton.setAttribute("aria-label", isOpen ? "Open menu" : "Close menu");
+          mobileMenu.hidden = isOpen;
+        });
+
+        mobileMenu?.addEventListener("click", (event) => {
+          if (!(event.target instanceof HTMLAnchorElement)) {
+            return;
+          }
+
+          menuButton?.setAttribute("aria-expanded", "false");
+          menuButton?.setAttribute("aria-label", "Open menu");
+          mobileMenu.hidden = true;
+        });
 
         if (!hero || reduceMotion.matches) {
           return;
@@ -120,23 +228,31 @@
           ["--flower-bed-x", 24, "--flower-bed-y", 14],
         ];
 
+        const mobileMedia = window.matchMedia("(max-width: 900px)");
         let frame = 0;
         let pointerX = 0;
         let pointerY = 0;
+        let orientationListening = false;
+
+        const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
 
         const applyParallax = () => {
           frame = 0;
+          const strength = mobileMedia.matches ? 1.75 : 1;
           layerDepths.forEach(([xVar, xDepth, yVar, yDepth]) => {
-            hero.style.setProperty(xVar, `${(pointerX * xDepth).toFixed(2)}px`);
-            hero.style.setProperty(yVar, `${(pointerY * yDepth).toFixed(2)}px`);
+            hero.style.setProperty(xVar, `${(pointerX * xDepth * strength).toFixed(2)}px`);
+            hero.style.setProperty(yVar, `${(pointerY * yDepth * strength).toFixed(2)}px`);
           });
         };
 
         const scheduleParallax = () => {
+          startMusic();
           if (!frame) {
             frame = window.requestAnimationFrame(applyParallax);
           }
         };
+
+        hero.addEventListener("pointerdown", startMusic, { once: true, passive: true });
 
         hero.addEventListener("pointermove", (event) => {
           const bounds = hero.getBoundingClientRect();
@@ -144,6 +260,43 @@
           pointerY = ((event.clientY - bounds.top) / bounds.height - 0.5) * 2;
           scheduleParallax();
         });
+
+        const handleOrientation = (event) => {
+          if (!mobileMedia.matches) {
+            return;
+          }
+
+          pointerX = clamp((event.gamma || 0) / 24, -1, 1);
+          pointerY = clamp((event.beta || 0) / 38, -1, 1);
+          scheduleParallax();
+        };
+
+        const enableTiltParallax = async () => {
+          if (orientationListening || !mobileMedia.matches || !("DeviceOrientationEvent" in window)) {
+            return;
+          }
+
+          const DeviceOrientation = window.DeviceOrientationEvent;
+          if (typeof DeviceOrientation.requestPermission === "function") {
+            try {
+              const permission = await DeviceOrientation.requestPermission();
+              if (permission !== "granted") {
+                return;
+              }
+            } catch {
+              return;
+            }
+          }
+
+          window.addEventListener("deviceorientation", handleOrientation, { passive: true });
+          orientationListening = true;
+        };
+
+        if (typeof window.DeviceOrientationEvent?.requestPermission === "function") {
+          window.addEventListener("pointerdown", enableTiltParallax, { once: true, passive: true });
+        } else {
+          enableTiltParallax();
+        }
 
         hero.addEventListener("pointerleave", () => {
           pointerX = 0;
